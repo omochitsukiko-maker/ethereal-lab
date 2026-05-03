@@ -165,11 +165,8 @@
 
             const data = await response.json();
 
-            if (data && data.result) {
-                kanteiTextDiv.innerText = data.result;
-            } else {
-                kanteiTextDiv.innerText = "鑑定結果の取得に失敗しました。";
-            }
+            // APIからのレスポンスをそのまま入れる（ここを「失敗」と固定しない）
+            kanteiTextDiv.innerText = data.result || "応答が空でした。";
 
             let stone = "";
             if (type === 'money') stone = "極位タイガーアイ（金運）";
@@ -178,7 +175,7 @@
             stoneNameSpan.innerText = stone;
 
         } catch (error) {
-            kanteiTextDiv.innerText = "通信エラーが発生しました。";
+            kanteiTextDiv.innerText = "ネットワーク接続に問題があります。";
         }
     }
 </script>
