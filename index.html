@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【極秘】深層意識解析室 | あなたの守護石を導き出す</title>
+    <style>
+        :root { --gold: #d4af37; --black: #0a0a0c; --gray: #1a1a1e; }
+        body { background: var(--black); color: #f0f0f0; font-family: "Hiragino Mincho ProN", serif; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; border: 1px solid var(--gold); padding: 30px; background: rgba(212, 175, 55, 0.02); }
+        h1 { color: var(--gold); text-align: center; letter-spacing: 5px; font-size: 1.5rem; }
+        .input-group { margin-top: 25px; }
+        label { display: block; color: var(--gold); font-size: 0.9rem; margin-bottom: 10px; }
+        select, textarea, input { width: 100%; padding: 12px; background: var(--gray); border: 1px solid #444; color: #fff; box-sizing: border-box; }
+        .btn { display: block; width: 100%; padding: 20px; background: var(--gold); color: #000; text-align: center; font-weight: bold; text-decoration: none; margin-top: 30px; cursor: pointer; border: none; }
+        
+        /* 解析アニメーション用 */
+        #loading { display: none; text-align: center; padding: 40px 0; }
+        .spinner { width: 40px; height: 40px; border: 4px solid var(--gold); border-top: 4px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* 結果表示用 */
+        #result { display: none; border-top: 1px dashed var(--gold); margin-top: 30px; padding-top: 20px; }
+        .kantei-text { background: rgba(255,255,255,0.05); padding: 15px; font-style: italic; border-left: 3px solid var(--gold); margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>深層意識解析室</h1>
+        <div id="form-area">
+            <p style="font-size: 0.8rem; text-align: center;">AI波動解析アルゴリズムにより、あなたの魂の渇望を可視化します。</p>
+            
+            <div class="input-group">
+                <label>解決したい悩みの種類</label>
+                <select id="type">
+                    <option value="money">金運・財運の停滞</option>
+                    <option value="love">愛の欠乏・縁結び</option>
+                    <option value="protection">邪気払い・厄除け</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>あなたの「執着」を具体的に記述してください</label>
+                <textarea id="detail" rows="4" placeholder="例：借金を完済したい、あの人と結ばれたい..."></textarea>
+            </div>
+
+            <button class="btn" onclick="startScan()">深層意識のスキャンを開始する</button>
+        </div>
+
+        <div id="loading">
+            <div class="spinner"></div>
+            <p id="loading-msg">波動を測定中...</p>
+        </div>
+
+        <div id="result">
+            <h2 style="color: var(--gold); text-align: center;">解析完了</h2>
+            <div id="kantei-output" class="kantei-text"></div>
+            <p style="text-align: center; font-weight: bold;">あなたと共鳴する唯一の石：<span id="stone-name"></span></p>
+            <a href="YOUR_SQUARE_LINK" class="btn" style="background: #fff;">浄化済みの石を特別注文する</a>
+        </div>
+    </div>
+
+    <script>
+        function startScan() {
+            document.getElementById('form-area').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+
+            // 演出用のメッセージ切り替え
+            const msgs = ["宇宙データと照合中...", "過去の因縁を走査中...", "守護石を選別中..."];
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < msgs.length) {
+                    document.getElementById('loading-msg').innerText = msgs[i++];
+                } else {
+                    clearInterval(interval);
+                    showResult();
+                }
+            }, 2000);
+        }
+
+        function showResult() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+            
+            const type = document.getElementById('type').value;
+            const output = document.getElementById('kantei-output');
+            const stone = document.getElementById('stone-name');
+
+            // 本来はここでAI APIを叩きますが、まずは簡易表示
+            if (type === 'money') {
+                stone.innerText = "極位タイガーアイ";
+                output.innerText = "あなたの金運の器がひび割れています。この石の波動で器を修復し、富を引き寄せる磁場を形成する必要があります。";
+            } else if (type === 'love') {
+                stone.innerText = "特級ローズクォーツ";
+                output.innerText = "愛のエネルギーが枯渇し、負の連鎖に入っています。この石が持つ慈愛の波動が、閉ざされた縁を強制的に結び直します。";
+            } else {
+                stone.innerText = "浄化のアメジスト";
+                output.innerText = "周囲からの邪気が、あなたの本来の輝きを塗りつぶしています。高貴な紫の波動で、全ての障壁を焼き払いなさい。";
+            }
+        }
+    </script>
+</body>
+</html>
