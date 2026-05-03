@@ -3,87 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethereal Consciousness Lab | 深層意識鑑定</title>
+    <title>Ethereal Consciousness Lab</title>
     <style>
-        :root {
-            --primary: #2c003e;
-            --accent: #d4af37;
-            --text: #e0e0e0;
-        }
-        body {
-            background-color: var(--primary);
-            color: var(--text);
-            font-family: 'Times New Roman', serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            margin: 0;
-            background-image: radial-gradient(circle, #4a0072 0%, #1a0028 100%);
-        }
-        .container {
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-            border: 1px solid var(--accent);
-            padding: 40px;
-            background: rgba(0,0,0,0.6);
-            box-shadow: 0 0 20px rgba(212,175,55,0.2);
-        }
-        h1 { color: var(--accent); letter-spacing: 3px; }
-        .input-group { margin: 25px 0; text-align: left; }
-        label { display: block; margin-bottom: 8px; color: var(--accent); }
-        select, textarea {
-            width: 100%;
-            padding: 12px;
-            background: #1a0028;
-            border: 1px solid var(--accent);
-            color: white;
-            box-sizing: border-box;
-        }
-        button {
-            background: var(--accent);
-            color: var(--primary);
-            border: none;
-            padding: 15px 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 1.1em;
-        }
-        button:hover {
-            background: #fff;
-            box-shadow: 0 0 15px var(--accent);
-        }
-        #loading, #result { display: none; }
-        .spinner {
-            border: 4px solid rgba(255,255,255,0.1);
-            border-top: 4px solid var(--accent);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .kantei-box {
-            text-align: left;
-            line-height: 1.8;
-            border-top: 1px solid var(--accent);
-            padding-top: 20px;
-            margin-top: 20px;
-            white-space: pre-wrap;
-        }
-        .cta-button {
-            display: inline-block;
-            margin-top: 30px;
-            background: #b22222;
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
-        }
+        body { background-color: #1a0633; color: #f3e5f5; font-family: "serif"; text-align: center; padding: 50px; }
+        .container { border: 2px solid #d4af37; padding: 30px; max-width: 600px; margin: auto; background: rgba(0,0,0,0.5); }
+        h1 { color: #d4af37; letter-spacing: 2px; }
+        textarea { width: 90%; height: 100px; background: #2e1a47; color: white; border: 1px solid #d4af37; padding: 10px; margin: 20px 0; }
+        select { background: #2e1a47; color: white; border: 1px solid #d4af37; padding: 10px; }
+        button { background: #8b0000; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; cursor: pointer; border-radius: 5px; margin-top: 20px; }
+        #result-area { display: none; margin-top: 30px; border-top: 1px solid #d4af37; padding-top: 20px; text-align: left; line-height: 1.8; }
+        .stone-name { font-size: 1.5rem; color: #d4af37; font-weight: bold; text-align: center; display: block; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -93,79 +22,70 @@
     <p>あなたの魂の歪みを検知し、救済の道を示します。</p>
 
     <div id="input-form">
-        <div class="input-group">
-            <label>鑑定の種類</label>
-            <select id="type">
-                <option value="money">金運・財福の欠乏</option>
-                <option value="love">愛の渇望と因縁</option>
-                <option value="purify">精神の浄化と厄除け</option>
-            </select>
-        </div>
-        <div class="input-group">
-            <label>現在感じている「負」の感情（具体的に）</label>
-            <textarea id="detail" rows="4" placeholder="例：いくら働いてもお金が貯まらない、人間関係で常に孤独を感じる、など"></textarea>
-        </div>
-        <button onclick="startKantei()">深層意識をスキャンする</button>
+        <select id="type">
+            <option value="money">金運上昇</option>
+            <option value="love">恋愛成就</option>
+            <option value="purify">邪気浄化</option>
+        </select><br>
+        <textarea id="detail" placeholder="あなたの悩みや現在の状況を詳しくお書きください..."></textarea><br>
+        <button onclick="startKantei()">鑑定を開始する</button>
     </div>
 
-    <div id="loading">
-        <div class="spinner"></div>
-        <p>深層意識にアクセス中...<br>宇宙の波長を調整しています。</p>
-    </div>
-
-    <div id="result">
-        <h2 style="color:var(--accent);">鑑定結果</h2>
-        <div id="kantei-output" class="kantei-box"></div>
-        <p style="margin-top:30px;">あなたの魂を救済する守護石：<br><strong id="stone-name" style="font-size:1.5em; color:var(--accent);"></strong></p>
-        <a href="https://amzn.to/YOUR_AFFILIATE_ID" class="cta-button" target="_blank">この石で魂を浄化する（購入ページへ）</a>
+    <div id="result-area">
+        <h2 style="text-align: center; color: #d4af37;">鑑定結果</h2>
+        <div id="kantei-text"></div>
+        <div id="stone-info" style="margin-top: 30px; text-align: center;">
+            あなたの魂を救済する守護石：<br>
+            <span id="stone-name" class="stone-name"></span>
+            <button onclick="alert('購入ページへ移行します')" style="background: #b22222; margin-top: 20px;">この石で魂を浄化する（購入ページへ）</button>
+        </div>
     </div>
 </div>
 
 <script>
-    function startKantei() {
-        const detail = document.getElementById('detail').value;
-        if (!detail) {
-            alert("鑑定にはあなたの感情の入力が必要です。");
-            return;
-        }
-        document.getElementById('input-form').style.display = 'none';
-        document.getElementById('loading').style.display = 'block';
-        
-        showResult();
-    }
-
-    async function showResult() {
+    async function startKantei() {
         const type = document.getElementById('type').value;
         const detail = document.getElementById('detail').value;
-        const kanteiOutput = document.getElementById('kantei-output');
-        const stoneName = document.getElementById('stone-name');
+        const kanteiTextDiv = document.getElementById('kantei-text');
+        const resultArea = document.getElementById('result-area');
+        const stoneNameSpan = document.getElementById('stone-name');
+
+        if (!detail) {
+            alert("悩みを入力してください。");
+            return;
+        }
+
+        kanteiTextDiv.innerText = "宇宙の意思を確認中...";
+        resultArea.style.display = "block";
+        document.getElementById('input-form').style.display = "none";
 
         try {
-            // Cloudflare Pages Functions (functions/api/kantei.js) を呼び出し
             const response = await fetch('/api/kantei', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ type, detail })
             });
-            
-            if (!response.ok) throw new Error('Network error');
-            
+
             const data = await response.json();
 
-            // AIからの鑑定文を表示
-            kanteiOutput.innerText = data.text;
-            
-            // 選択したタイプに合わせて石の名前を決定
-            stoneName.innerText = (type === 'money') ? "極位タイガーアイ（金運）" : 
-                                 (type === 'love') ? "特級ローズクォーツ（愛欲）" : 
-                                 "聖域アメジスト（浄化）";
+            // バックエンドが返す { result: "..." } を正確に読み取る
+            if (data.result) {
+                kanteiTextDiv.innerText = data.result;
+            } else if (data.error) {
+                kanteiTextDiv.innerText = "エラー: " + data.error;
+            } else {
+                kanteiTextDiv.innerText = "宇宙の波長が乱れました。時間を置いて再度お試しください。";
+            }
 
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('result').style.display = 'block';
-        } catch (e) {
-            console.error(e);
-            alert("宇宙の波長が乱れました。時間を置いて再度お試しください。");
-            location.reload();
+            // 石の判定（簡易ロジック）
+            let stone = "";
+            if (type === 'money') stone = "極位タイガーアイ（金運）";
+            else if (type === 'love') stone = "至高のローズクォーツ（愛）";
+            else stone = "深淵のアメジスト（浄化）";
+            stoneNameSpan.innerText = stone;
+
+        } catch (error) {
+            kanteiTextDiv.innerText = "交信エラー: " + error.message;
         }
     }
 </script>
