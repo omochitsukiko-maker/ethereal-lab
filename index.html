@@ -2,20 +2,20 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ethereal Consciousness Lab</title>
     <style>
         body { background-color: #0d0221; color: #f3e5f5; font-family: serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .outer-border { border: 2px solid #d4af37; padding: 15px; width: 90%; max-width: 700px; box-shadow: 0 0 25px rgba(212, 175, 55, 0.3); }
+        .outer-border { border: 2px solid #d4af37; padding: 10px; width: 90%; max-width: 700px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
         .container { border: 1px solid #d4af37; padding: 40px; background-color: #0d0221; text-align: center; }
-        h1 { color: #d4af37; font-size: 2.2rem; letter-spacing: 5px; margin: 0 0 10px 0; }
+        h1 { color: #d4af37; font-size: 2.2rem; letter-spacing: 4px; margin: 0 0 10px 0; }
         .subtitle { font-size: 0.9rem; margin-bottom: 30px; }
-        select, textarea { width: 100%; background: #1a0a33; color: #fff; border: 1px solid #d4af37; padding: 12px; box-sizing: border-box; margin-bottom: 20px; font-size: 1rem; outline: none; }
-        .btn-main { background: #a52a2a; color: white; border: none; padding: 15px 50px; cursor: pointer; border-radius: 4px; font-size: 1.1rem; font-weight: bold; transition: 0.3s; }
-        .btn-main:hover { background: #cd5c5c; }
+        select, textarea { width: 100%; background: #1a0a33; color: #fff; border: 1px solid #d4af37; padding: 15px; box-sizing: border-box; margin-bottom: 20px; font-size: 1rem; outline: none; }
+        .btn-main { background: #a52a2a; color: white; border: none; padding: 15px 50px; cursor: pointer; border-radius: 4px; font-size: 1.1rem; font-weight: bold; }
         #result-area { display: none; }
-        #kantei-text { text-align: left; line-height: 1.8; margin: 30px 0; white-space: pre-wrap; min-height: 100px; }
-        .stone-box { border: 1px dashed #d4af37; padding: 20px; margin-top: 30px; }
-        .stone-name { font-size: 1.8rem; color: #d4af37; font-weight: bold; display: block; margin: 10px 0; }
+        #kantei-text { text-align: left; line-height: 2; margin: 30px 0; white-space: pre-wrap; min-height: 100px; }
+        .stone-box { border: 1px dashed #d4af37; padding: 25px; margin-top: 30px; background: rgba(212, 175, 55, 0.05); }
+        .stone-name { font-size: 2rem; color: #d4af37; font-weight: bold; display: block; margin: 15px 0; text-shadow: 0 0 10px rgba(212, 175, 55, 0.4); }
     </style>
 </head>
 <body>
@@ -26,30 +26,30 @@
         
         <div id="input-form">
             <select id="kantei-type">
-                <option value="金運">金運を占う</option>
-                <option value="恋愛運">恋愛運を占う</option>
-                <option value="健康運">健康運を占う</option>
+                <option value="金運">金運の鑑定</option>
+                <option value="恋愛運">恋愛運の鑑定</option>
+                <option value="健康運">健康運の鑑定</option>
             </select>
-            <textarea id="detail" placeholder="あなたの悩みをお書きください..."></textarea>
+            <textarea id="detail" placeholder="お悩みをご記入ください..."></textarea><br>
             <button class="btn-main" onclick="startKantei()">鑑定を開始する</button>
         </div>
 
         <div id="result-area">
-            <h2 style="color:#d4af37;">鑑 定 結 果</h2>
-            <hr style="border-color:#d4af37;">
+            <h2 style="color:#d4af37; letter-spacing: 8px;">鑑定結果</h2>
+            <hr style="border: 0; border-top: 1px solid #d4af37;">
             <div id="kantei-text"></div>
             <div class="stone-box">
                 <p>あなたの魂を救済する守護石：</p>
                 <span id="stone-display" class="stone-name"></span>
-                <button class="btn-main">この石で魂を浄化する</button>
+                <button class="btn-main" onclick="alert('決済ページへ移動します')">この石で魂を浄化する</button>
             </div>
-            <p style="margin-top:20px; text-decoration:underline; cursor:pointer;" onclick="location.reload()">やり直す</p>
+            <p style="margin-top:25px; text-decoration:underline; cursor:pointer; font-size:0.9rem;" onclick="location.reload()">やり直す</p>
         </div>
     </div>
 </div>
 
 <script>
-    const stones = {
+    const stoneMap = {
         "金運": "極位タイガーアイ（金運）",
         "恋愛運": "最高位ローズクォーツ（愛）",
         "健康運": "特級アメジスト（癒）"
@@ -62,8 +62,8 @@
 
         document.getElementById('input-form').style.display = "none";
         document.getElementById('result-area').style.display = "block";
-        document.getElementById('kantei-text').innerText = "星の記憶を辿っています...";
-        document.getElementById('stone-display').innerText = stones[type];
+        document.getElementById('kantei-text').innerText = "深淵にアクセスしています...";
+        document.getElementById('stone-display').innerText = stoneMap[type];
 
         try {
             const res = await fetch('/api/kantei', {
@@ -74,7 +74,7 @@
             const data = await res.json();
             document.getElementById('kantei-text').innerText = data.result;
         } catch (e) {
-            document.getElementById('kantei-text').innerText = "通信が遮断されました。再度お試しください。";
+            document.getElementById('kantei-text').innerText = "【通信途絶】魔力の供給が不安定です。再度お試しください。";
         }
     }
 </script>
