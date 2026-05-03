@@ -18,7 +18,7 @@ export async function onRequest(context) {
     // 環境変数の確認
     const apiKey = env.GEMINI_API_KEY;
     if (!apiKey) {
-      return new Response(JSON.stringify({ error: "APIキーが設定されていません。" }), {
+      return new Response(JSON.stringify({ result: "エラー：APIキーが設定されていません。" }), {
         status: 500,
         headers: { "Content-Type": "application/json" }
       });
@@ -40,7 +40,7 @@ export async function onRequest(context) {
     const data = await response.json();
 
     if (!response.ok) {
-      return new Response(JSON.stringify({ error: "Gemini API Error", details: data }), {
+      return new Response(JSON.stringify({ result: "エラー：Gemini APIとの交信に失敗しました。" }), {
         status: 500,
         headers: { "Content-Type": "application/json" }
       });
@@ -49,7 +49,7 @@ export async function onRequest(context) {
     // 鑑定結果の抽出
     const resultText = data.candidates[0].content.parts[0].text;
 
-    // フロントエンドの data.result という指定に合わせて返却
+    // フロントエンドの data.result という指定に厳格に合わせて返却
     return new Response(JSON.stringify({ 
       result: resultText 
     }), {
@@ -61,7 +61,7 @@ export async function onRequest(context) {
     });
 
   } catch (e) {
-    return new Response(JSON.stringify({ error: "予期せぬエラー: " + e.message }), {
+    return new Response(JSON.stringify({ result: "予期せぬエラーが発生しました：" + e.message }), {
       status: 500,
       headers: { "Content-Type": "application/json" }
     });
