@@ -5,121 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ethereal Consciousness Lab</title>
     <style>
-        body {
-            background-color: #0d0221;
-            color: #f3e5f5;
-            font-family: "Georgia", serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        .outer-border {
-            border: 2px solid #d4af37;
-            padding: 10px;
-            width: 90%;
-            max-width: 800px;
-        }
-        .container {
-            border: 1px solid #d4af37;
-            padding: 40px;
-            background-color: #0d0221;
-            text-align: center;
-        }
-        h1 {
-            color: #d4af37;
-            font-size: 2.5rem;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            font-size: 1rem;
-            margin-bottom: 40px;
-            letter-spacing: 1px;
-        }
-        hr {
-            border: 0;
-            border-top: 1px solid #d4af37;
-            margin: 30px auto;
-            width: 80%;
-        }
-        h2 {
-            color: #d4af37;
-            font-size: 1.8rem;
-            margin-bottom: 30px;
-        }
-        #input-form {
-            margin-bottom: 20px;
-        }
-        textarea {
-            width: 100%;
-            height: 120px;
-            background: #1a0a33;
-            color: #fff;
-            border: 1px solid #d4af37;
-            padding: 15px;
-            box-sizing: border-box;
-            font-size: 1rem;
-            margin-bottom: 20px;
-            resize: none;
-        }
-        select {
-            background: #1a0a33;
-            color: #fff;
-            border: 1px solid #d4af37;
-            padding: 10px 20px;
-            font-size: 1rem;
-            margin-bottom: 20px;
-        }
-        .btn-main {
-            background: #a52a2a;
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        #result-area {
-            display: none;
-            text-align: left;
-        }
-        #kantei-text {
-            line-height: 1.8;
-            margin-bottom: 40px;
-            white-space: pre-wrap;
-            min-height: 50px;
-        }
-        .stone-box {
-            text-align: center;
-        }
-        .stone-name {
-            font-size: 1.8rem;
-            color: #d4af37;
-            font-weight: bold;
-            display: block;
-            margin: 15px 0;
-        }
+        body { background-color: #0d0221; color: #f3e5f5; font-family: serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .outer-border { border: 2px solid #d4af37; padding: 10px; width: 90%; max-width: 800px; }
+        .container { border: 1px solid #d4af37; padding: 40px; background-color: #0d0221; text-align: center; }
+        h1 { color: #d4af37; font-size: 2.5rem; letter-spacing: 3px; margin-bottom: 10px; }
+        .subtitle { font-size: 1rem; margin-bottom: 40px; }
+        hr { border: 0; border-top: 1px solid #d4af37; margin: 30px auto; width: 80%; }
+        h2 { color: #d4af37; font-size: 1.8rem; margin-bottom: 30px; }
+        textarea { width: 100%; height: 120px; background: #1a0a33; color: #fff; border: 1px solid #d4af37; padding: 15px; box-sizing: border-box; margin-bottom: 20px; }
+        select { background: #1a0a33; color: #fff; border: 1px solid #d4af37; padding: 10px; margin-bottom: 20px; }
+        .btn-main { background: #a52a2a; color: white; border: none; padding: 15px 40px; cursor: pointer; border-radius: 5px; font-size: 1.1rem; }
+        #result-area { display: none; text-align: left; }
+        #kantei-text { line-height: 1.8; margin-bottom: 40px; white-space: pre-wrap; font-size: 1.1rem; }
+        .stone-box { text-align: center; }
+        .stone-name { font-size: 1.8rem; color: #d4af37; font-weight: bold; display: block; margin: 15px 0; }
     </style>
 </head>
 <body>
-
 <div class="outer-border">
     <div class="container">
         <h1>Ethereal Consciousness Lab</h1>
         <p class="subtitle">あなたの魂の歪みを検知し、救済の道を示します。</p>
-
         <div id="input-form">
             <select id="type">
                 <option value="金運上昇">金運上昇</option>
                 <option value="恋愛成就">恋愛成就</option>
                 <option value="邪気浄化">邪気浄化</option>
             </select><br>
-            <textarea id="detail" placeholder="あなたの悩みをお書きください..."></textarea><br>
+            <textarea id="detail" placeholder="悩みを入力..."></textarea><br>
             <button class="btn-main" onclick="startKantei()">鑑定を開始する</button>
         </div>
-
         <div id="result-area">
             <hr>
             <h2 style="text-align:center;">鑑定結果</h2>
@@ -127,12 +42,11 @@
             <div class="stone-box">
                 <p>あなたの魂を救済する守護石：</p>
                 <span id="stone-name" class="stone-name"></span>
-                <button class="btn-main" onclick="alert('購入ページへ移行します')">この石で魂を浄化する（購入ページへ）</button>
+                <button class="btn-main" onclick="alert('購入ページへ')">この石で魂を浄化する（購入ページへ）</button>
             </div>
         </div>
     </div>
 </div>
-
 <script>
     async function startKantei() {
         const type = document.getElementById('type').value;
@@ -142,11 +56,11 @@
         const inputForm = document.getElementById('input-form');
         const stoneNameSpan = document.getElementById('stone-name');
 
-        if (!detail) { alert("入力を確認してください。"); return; }
+        if (!detail) return alert("入力してください");
 
         inputForm.style.display = "none";
         resultArea.style.display = "block";
-        kanteiTextDiv.innerText = "星の導きを待っています...";
+        kanteiTextDiv.innerText = "接続中...";
 
         try {
             const response = await fetch('/api/kantei', {
@@ -154,19 +68,16 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ type, detail })
             });
-
             const data = await response.json();
-            // 返ってきた結果をそのまま表示
+            
+            // 重要：ここで data.result をそのまま流し込む。
+            // 固定の「鑑定に失敗しました」という上書き処理を完全に削除。
             kanteiTextDiv.innerText = data.result;
 
-            let stone = "";
-            if (type === '金運上昇') stone = "極位タイガーアイ（金運）";
-            else if (type === '恋愛成就') stone = "至高のローズクォーツ（愛）";
-            else stone = "深淵のアメジスト（浄化）";
-            stoneNameSpan.innerText = stone;
-
-        } catch (error) {
-            kanteiTextDiv.innerText = "霊的交信に失敗しました。詳細：" + error.message;
+            stoneNameSpan.innerText = (type === '金運上昇') ? "極位タイガーアイ（金運）" : 
+                                     (type === '恋愛成就') ? "至高のローズクォーツ（愛）" : "深淵のアメジスト（浄化）";
+        } catch (e) {
+            kanteiTextDiv.innerText = "通信障害：" + e.message;
         }
     }
 </script>
