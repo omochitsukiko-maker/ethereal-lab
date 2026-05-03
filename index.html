@@ -1,65 +1,6 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethereal Consciousness Lab (Ver.FINAL)</title>
-    <style>
-        body { background-color: #0d0221; color: #f3e5f5; font-family: serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .outer-border { border: 2px solid #d4af37; padding: 10px; width: 90%; max-width: 800px; }
-        .container { border: 1px solid #d4af37; padding: 40px; background-color: #0d0221; text-align: center; }
-        h1 { color: #d4af37; font-size: 2.5rem; letter-spacing: 3px; margin-bottom: 10px; }
-        hr { border: 0; border-top: 1px solid #d4af37; margin: 30px auto; width: 80%; }
-        textarea { width: 100%; height: 120px; background: #1a0a33; color: #fff; border: 1px solid #d4af37; padding: 15px; box-sizing: border-box; margin-bottom: 20px; }
-        .btn-main { background: #a52a2a; color: white; border: none; padding: 15px 40px; cursor: pointer; border-radius: 5px; font-size: 1.1rem; }
-        #result-area { display: none; text-align: left; }
-        #kantei-text { line-height: 1.8; margin-bottom: 40px; white-space: pre-wrap; }
-        .stone-name { font-size: 1.8rem; color: #d4af37; font-weight: bold; display: block; margin: 15px 0; text-align: center; }
-    </style>
-</head>
-<body>
-<div class="outer-border">
-    <div class="container">
-        <h1>Ethereal Consciousness Lab</h1>
-        <p>あなたの魂の歪みを検知し、救済の道を示します。</p>
-        <div id="input-form">
-            <textarea id="detail" placeholder="悩みや状況を入力してください..."></textarea><br>
-            <button class="btn-main" onclick="startKantei()">鑑定を開始する</button>
-        </div>
-        <div id="result-area">
-            <hr>
-            <h2 style="text-align:center; color:#d4af37;">鑑定結果</h2>
-            <div id="kantei-text"></div>
-            <div style="text-align:center;">
-                <p>魂を救済する守護石：</p>
-                <span class="stone-name">極位タイガーアイ（金運）</span>
-                <button class="btn-main" onclick="alert('購入ページへ')">この石で魂を浄化する</button>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    async function startKantei() {
-        const detail = document.getElementById('detail').value;
-        if (!detail) return alert("悩みをご記入ください。");
-
-        document.getElementById('input-form').style.display = "none";
-        document.getElementById('result-area').style.display = "block";
-        document.getElementById('kantei-text').innerText = "深層意識と交信中...";
-
-        try {
-            const res = await fetch('/api/kantei', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ detail })
-            });
-            const data = await res.json();
-            // ここの data.result は API またはエラーメッセージそのものです。
-            document.getElementById('kantei-text').innerText = data.result;
-        } catch (e) {
-            document.getElementById('kantei-text').innerText = "通信障害: " + e.message;
-        }
-    }
-</script>
+<html>
+<body style="background: red; color: white; font-size: 50px;">
+    これが見えたら最新です。
 </body>
 </html>
