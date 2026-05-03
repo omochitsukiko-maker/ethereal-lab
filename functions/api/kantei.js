@@ -13,16 +13,17 @@ export async function onRequest(context) {
     const detail = body.detail || "悩みなし";
 
     if (!env.GEMINI_API_KEY) {
-      return new Response(JSON.stringify({ result: "エラー：APIキーが設定されていません。" }), {
+      return new Response(JSON.stringify({ result: "エラー：GEMINI_API_KEYが未設定です。" }), {
         status: 500,
         headers: { "Content-Type": "application/json" }
       });
     }
 
-    // エラーメッセージに基づき、URLを直接文字列で結合する最もシンプルな形式に変更
-    const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + env.GEMINI_API_KEY;
+    // エラーメッセージに基づき、最も標準的なエンドポイント形式に固定
+    // models/ プレフィックスを含めた完全なモデル名を使用します
+    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + env.GEMINI_API_KEY;
 
-    const response = await fetch(url, {
+    const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -37,15 +38,16 @@ export async function onRequest(context) {
     const data = await response.json();
 
     if (!response.ok) {
-      // APIから返ってきた生のメッセージをそのまま表示させる（原因特定のため）
-      const apiError = data.error?.message || JSON.stringify(data);
-      return new Response(JSON.stringify({ result: "API交信エラー: " + apiError }), {
-        status: 200, // フロント側で受け取れるよう200で返します
+      // 万が一エラーが発生した際も、具体的なメッセージをフロントに渡して「鑑定に失敗しました」で終わらせない
+      const errorMsg = data.error?.message || JSON.stringify(data);
+      return new Response(JSON.stringify({ result: "交信失敗：" + errorMsg }), {
+        status: 200, // フロントエンドの catch を避けるため 200 で返却
         headers: { "Content-Type": "application/json" }
       });
     }
 
-    const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || "鑑定結果の解析に失敗しました。";
+    // 応答テキストの抽出
+    const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || "星の配置を読み取ることができませんでした。";
 
     return new Response(JSON.stringify({ result: resultText }), {
       status: 200,
