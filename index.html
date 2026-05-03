@@ -5,40 +5,134 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ethereal Consciousness Lab</title>
     <style>
-        body { background-color: #1a0633; color: #f3e5f5; font-family: "serif"; text-align: center; padding: 50px; }
-        .container { border: 2px solid #d4af37; padding: 30px; max-width: 600px; margin: auto; background: rgba(0,0,0,0.5); }
-        h1 { color: #d4af37; letter-spacing: 2px; }
-        textarea { width: 90%; height: 100px; background: #2e1a47; color: white; border: 1px solid #d4af37; padding: 10px; margin: 20px 0; }
-        select { background: #2e1a47; color: white; border: 1px solid #d4af37; padding: 10px; }
-        button { background: #8b0000; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; cursor: pointer; border-radius: 5px; margin-top: 20px; }
-        #result-area { display: none; margin-top: 30px; border-top: 1px solid #d4af37; padding-top: 20px; text-align: left; line-height: 1.8; }
-        .stone-name { font-size: 1.5rem; color: #d4af37; font-weight: bold; text-align: center; display: block; margin-top: 10px; }
-        #kantei-text { white-space: pre-wrap; }
+        body {
+            background-color: #0d0221;
+            color: #f3e5f5;
+            font-family: "Georgia", serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .outer-border {
+            border: 2px solid #d4af37;
+            padding: 10px;
+            width: 90%;
+            max-width: 800px;
+        }
+        .container {
+            border: 1px solid #d4af37;
+            padding: 40px;
+            background-color: #0d0221;
+            text-align: center;
+        }
+        h1 {
+            color: #d4af37;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+        hr {
+            border: 0;
+            border-top: 1px solid #d4af37;
+            margin: 30px 0;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h2 {
+            color: #d4af37;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+        #input-form {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            background: #1a0a33;
+            color: #fff;
+            border: 1px solid #d4af37;
+            padding: 15px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        select {
+            background: #1a0a33;
+            color: #fff;
+            border: 1px solid #d4af37;
+            padding: 10px 20px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .btn-main {
+            background: #a52a2a;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn-main:hover {
+            background: #8b0000;
+        }
+        #result-area {
+            display: none;
+            text-align: left;
+        }
+        #kantei-text {
+            line-height: 2;
+            margin-bottom: 40px;
+            white-space: pre-wrap;
+        }
+        .stone-box {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .stone-name {
+            font-size: 1.8rem;
+            color: #d4af37;
+            font-weight: bold;
+            display: block;
+            margin: 15px 0;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Ethereal Consciousness Lab</h1>
-    <p>あなたの魂の歪みを検知し、救済の道を示します。</p>
+<div class="outer-border">
+    <div class="container">
+        <h1>Ethereal Consciousness Lab</h1>
+        <p class="subtitle">あなたの魂の歪みを検知し、救済の道を示します。</p>
 
-    <div id="input-form">
-        <select id="type">
-            <option value="money">金運上昇</option>
-            <option value="love">恋愛成就</option>
-            <option value="purify">邪気浄化</option>
-        </select><br>
-        <textarea id="detail" placeholder="あなたの悩みや現在の状況を詳しくお書きください..."></textarea><br>
-        <button onclick="startKantei()">鑑定を開始する</button>
-    </div>
+        <div id="input-form">
+            <select id="type">
+                <option value="money">金運上昇</option>
+                <option value="love">恋愛成就</option>
+                <option value="purify">邪気浄化</option>
+            </select><br>
+            <textarea id="detail" placeholder="あなたの悩みや現在の状況を詳しくお書きください..."></textarea><br>
+            <button class="btn-main" onclick="startKantei()">鑑定を開始する</button>
+        </div>
 
-    <div id="result-area">
-        <h2 style="text-align: center; color: #d4af37;">鑑定結果</h2>
-        <div id="kantei-text"></div>
-        <div id="stone-info" style="margin-top: 30px; text-align: center;">
-            あなたの魂を救済する守護石：<br>
-            <span id="stone-name" class="stone-name"></span>
-            <button onclick="alert('購入ページへ移行します')" style="background: #b22222; margin-top: 20px;">この石で魂を浄化する（購入ページへ）</button>
+        <div id="result-area">
+            <hr>
+            <h2>鑑定結果</h2>
+            <div id="kantei-text"></div>
+            <div class="stone-box">
+                <p>あなたの魂を救済する守護石：</p>
+                <span id="stone-name" class="stone-name"></span>
+                <button class="btn-main" onclick="alert('購入ページへ移行します')">この石で魂を浄化する（購入ページへ）</button>
+            </div>
         </div>
     </div>
 </div>
@@ -49,6 +143,7 @@
         const detail = document.getElementById('detail').value;
         const kanteiTextDiv = document.getElementById('kantei-text');
         const resultArea = document.getElementById('result-area');
+        const inputForm = document.getElementById('input-form');
         const stoneNameSpan = document.getElementById('stone-name');
 
         if (!detail) {
@@ -56,10 +151,10 @@
             return;
         }
 
-        // 表示の切り替え
-        kanteiTextDiv.innerText = "宇宙の意思を確認中...";
+        // 表示の初期化
+        inputForm.style.display = "none";
         resultArea.style.display = "block";
-        document.getElementById('input-form').style.display = "none";
+        kanteiTextDiv.innerText = "深層意識へアクセス中...";
 
         try {
             const response = await fetch('/api/kantei', {
@@ -70,16 +165,14 @@
 
             const data = await response.json();
 
-            // data.result が存在するか確認し、存在すれば表示
+            // APIがエラーを含めて result キーで返してくる設計に対応
             if (data && data.result) {
                 kanteiTextDiv.innerText = data.result;
             } else {
-                // キーが不一致または中身が空の場合の予備表示
-                kanteiTextDiv.innerText = "鑑定結果の取得に失敗しました。レスポンス形式が不正です。";
-                console.error("Unexpected response format:", data);
+                kanteiTextDiv.innerText = "宇宙の波長が乱れました。時間を置いて再度お試しください。";
             }
 
-            // 石の判定ロジック
+            // 石の表示
             let stone = "";
             if (type === 'money') stone = "極位タイガーアイ（金運）";
             else if (type === 'love') stone = "至高のローズクォーツ（愛）";
@@ -87,8 +180,7 @@
             stoneNameSpan.innerText = stone;
 
         } catch (error) {
-            kanteiTextDiv.innerText = "通信中に断絶が発生しました。再度お試しください。";
-            console.error("Fetch error:", error);
+            kanteiTextDiv.innerText = "通信が遮断されました。霊的環境の良い場所で再度お試しください。";
         }
     }
 </script>
