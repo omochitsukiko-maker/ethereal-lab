@@ -1,28 +1,79 @@
-<script>
-    // 重要な処理を一つの関数にまとめ、変数名を意味不明なものにする（簡易難読化）
-    async function startKantei() {
-        const _0x1 = document.getElementById('kantei-type').value;
-        const _0x2 = document.getElementById('detail').value;
-        if (!_0x2) return;
+<div class="outer-border">
+    <div class="container">
+        <h1>ETHEREAL CONSCIOUSNESS LAB</h1>
+        <p class="subtitle">魂の共鳴を読み取り、宿命の鎖を解き放つ。</p>
+        
+        <div id="input-form">
+            <div style="margin-bottom: 20px;">
+                <input type="text" id="user-name" placeholder="お名前（ニックネーム可）" style="width: 100%; background: #1a0a33; color: #fff; border: 1px solid #d4af37; padding: 12px; box-sizing: border-box; outline: none; font-size: 1rem;">
+            </div>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <input type="date" id="birth-date" style="flex: 2; background: #1a0a33; color: #fff; border: 1px solid #d4af37; padding: 12px; outline: none;" title="生年月日">
+                <select id="blood-type" style="flex: 1; margin-bottom: 0;">
+                    <option value="不明">血液型</option>
+                    <option value="A">A型</option>
+                    <option value="B">B型</option>
+                    <option value="O">O型</option>
+                    <option value="AB">AB型</option>
+                </select>
+            </div>
+            <select id="kantei-type">
+                <option value="金運">金運の鑑定（財の因縁）</option>
+                <option value="恋愛運">恋愛運の鑑定（愛の浄化）</option>
+                <option value="健康運">健康運の鑑定（生命の再生）</option>
+            </select>
+            <textarea id="detail" placeholder="あなたの魂が抱える苦悩を、ありのままにお書きください..."></textarea>
+            <button class="btn-main" onclick="startKantei()">運命を読み解く</button>
+        </div>
 
-        // UI操作
+        <div id="result-area" style="display: none;">
+            <h2 style="color:#d4af37; letter-spacing: 10px;">鑑 定 啓 示</h2>
+            <hr style="border:0; border-top:1px solid #d4af37; width:60%; margin: 20px auto;">
+            <div id="kantei-text" style="text-align: left; line-height: 2; margin: 30px 0; white-space: pre-wrap;"></div>
+            <div class="stone-box">
+                <p>あなたの魂と共鳴する唯一の守護石：</p>
+                <span id="stone-display" class="stone-name"></span>
+                <button class="btn-main" onclick="alert('これより浄化の儀式（決済）へ移行します。')">この石で宿命を書き換える</button>
+            </div>
+            <p style="margin-top:30px; text-decoration:underline; cursor:pointer; font-size:0.8rem; opacity: 0.6;" onclick="location.reload()">もう一度運命を視る</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function startKantei() {
+        const name = document.getElementById('user-name').value || "迷える魂";
+        const birth = document.getElementById('birth-date').value;
+        const blood = document.getElementById('blood-type').value;
+        const type = document.getElementById('kantei-type').value;
+        const detail = document.getElementById('detail').value;
+
+        if (!detail || detail.length < 5) return alert("魂の声（お悩み）を詳しくお聞かせください。");
+
         document.getElementById('input-form').style.display = "none";
         document.getElementById('result-area').style.display = "block";
-        const _out = document.getElementById('kantei-text');
-        _out.innerText = "Accessing Ethereal Layer...";
+        const out = document.getElementById('kantei-text');
+        
+        // フェイクの演出ステップ
+        out.innerText = `${name}様の宿命周期を逆算中...`;
+        setTimeout(() => { out.innerText = `天体の配置と${blood}型の共鳴を確認しています...`; }, 1500);
+        setTimeout(() => { out.innerText = `因果の深淵より、啓示を引き出しています...`; }, 3000);
 
         try {
-            const _r = await fetch('/api/kantei', {
+            const res = await fetch('/api/kantei', {
                 method: 'POST',
-                body: JSON.stringify({ type: _0x1, detail: _0x2 })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, type, detail, birth, blood })
             });
-            const _d = await _r.json();
+            const data = await res.json();
             
-            // サーバーから届いたデータのみを表示
-            _out.innerText = _d.res;
-            document.getElementById('stone-display').innerText = _d.stn;
+            // 4秒後に結果を表示（演出時間を確保）
+            setTimeout(() => {
+                out.innerText = data.res;
+                document.getElementById('stone-display').innerText = data.stn;
+            }, 4500);
         } catch {
-            _out.innerText = "Connection lost.";
+            out.innerText = "聖域の波動が乱れ、接続が遮断されました。";
         }
     }
 </script>
