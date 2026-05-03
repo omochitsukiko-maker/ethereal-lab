@@ -19,31 +19,33 @@ export async function onRequest(context) {
       });
     }
 
-    // モデル名を安定版の記述に変更
-    const MODEL_NAME = "gemini-1.5-flash"; 
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${env.GEMINI_API_KEY}`;
+    // エラーメッセージに基づき、URLを直接文字列で結合する最もシンプルな形式に変更
+    const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + env.GEMINI_API_KEY;
 
-    const response = await fetch(API_URL, {
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: `あなたは伝説の鑑定師です。以下の悩みを持つ者に、前世の因縁を指摘しつつ、最終的に「${type}」に呼応する石が必要だと説得する、神秘的な鑑定文を生成してください。：${detail}` }] }]
+        contents: [{
+          parts: [{
+            text: `あなたは伝説の鑑定師です。以下の悩みを持つ者に、前世の因縁を指摘しつつ、最終的に「${type}」に呼応する石が必要だと説得する、神秘的な鑑定文を生成してください。：${detail}`
+          }]
+        }]
       })
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      // エラー詳細をフロントに返す
-      const errorMsg = data.error?.message || "Gemini APIのエラーです。";
-      return new Response(JSON.stringify({ result: `交信失敗：${errorMsg}` }), {
-        status: response.status,
+      // APIから返ってきた生のメッセージをそのまま表示させる（原因特定のため）
+      const apiError = data.error?.message || JSON.stringify(data);
+      return new Response(JSON.stringify({ result: "API交信エラー: " + apiError }), {
+        status: 200, // フロント側で受け取れるよう200で返します
         headers: { "Content-Type": "application/json" }
       });
     }
 
-    // レスポンスからテキストを抽出
-    const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || "星の配置が読み取れませんでした。";
+    const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || "鑑定結果の解析に失敗しました。";
 
     return new Response(JSON.stringify({ result: resultText }), {
       status: 200,
@@ -55,7 +57,7 @@ export async function onRequest(context) {
 
   } catch (e) {
     return new Response(JSON.stringify({ result: "システムエラー：" + e.message }), {
-      status: 500,
+      status: 200,
       headers: { "Content-Type": "application/json" }
     });
   }
