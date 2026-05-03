@@ -8,7 +8,7 @@
         body {
             background-color: #0d0221;
             color: #f3e5f5;
-            font-family: "Georgia", "Times New Roman", serif;
+            font-family: "Georgia", serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,19 +23,18 @@
         }
         .container {
             border: 1px solid #d4af37;
-            padding: 50px 40px;
+            padding: 40px;
             background-color: #0d0221;
             text-align: center;
         }
         h1 {
             color: #d4af37;
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             letter-spacing: 3px;
-            margin: 0 0 15px 0;
-            font-weight: normal;
+            margin-bottom: 10px;
         }
         .subtitle {
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: 40px;
             letter-spacing: 1px;
         }
@@ -43,81 +42,64 @@
             border: 0;
             border-top: 1px solid #d4af37;
             margin: 30px auto;
-            width: 85%;
+            width: 80%;
         }
         h2 {
             color: #d4af37;
             font-size: 1.8rem;
             margin-bottom: 30px;
-            font-weight: normal;
-            letter-spacing: 2px;
         }
         #input-form {
             margin-bottom: 20px;
         }
         textarea {
             width: 100%;
-            height: 140px;
+            height: 120px;
             background: #1a0a33;
             color: #fff;
             border: 1px solid #d4af37;
             padding: 15px;
             box-sizing: border-box;
-            font-size: 1.1rem;
-            margin-bottom: 25px;
+            font-size: 1rem;
+            margin-bottom: 20px;
             resize: none;
-            outline: none;
         }
         select {
             background: #1a0a33;
             color: #fff;
             border: 1px solid #d4af37;
-            padding: 10px 25px;
+            padding: 10px 20px;
             font-size: 1rem;
-            margin-bottom: 25px;
-            outline: none;
+            margin-bottom: 20px;
         }
         .btn-main {
             background: #a52a2a;
-            color: #fff;
+            color: white;
             border: none;
-            padding: 16px 45px;
-            font-size: 1.2rem;
+            padding: 15px 40px;
+            font-size: 1.1rem;
             cursor: pointer;
-            border-radius: 4px;
-            transition: 0.3s ease;
-        }
-        .btn-main:hover {
-            background: #8b0000;
-            box-shadow: 0 0 15px rgba(165, 42, 42, 0.4);
+            border-radius: 5px;
         }
         #result-area {
             display: none;
-            text-align: center;
+            text-align: left;
         }
         #kantei-text {
-            line-height: 2.2;
-            margin: 20px auto 40px auto;
+            line-height: 1.8;
+            margin-bottom: 40px;
             white-space: pre-wrap;
-            text-align: left;
-            font-size: 1.1rem;
-            max-width: 90%;
+            min-height: 50px;
         }
         .stone-box {
             text-align: center;
-            margin-top: 30px;
-        }
-        .stone-label {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
         }
         .stone-name {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #d4af37;
             font-weight: bold;
             display: block;
-            margin-bottom: 30px;
-            letter-spacing: 1px;
+            margin: 15px 0;
         }
     </style>
 </head>
@@ -134,16 +116,16 @@
                 <option value="恋愛成就">恋愛成就</option>
                 <option value="邪気浄化">邪気浄化</option>
             </select><br>
-            <textarea id="detail" placeholder="あなたの悩みや現在の状況を詳しくお書きください..."></textarea><br>
+            <textarea id="detail" placeholder="あなたの悩みをお書きください..."></textarea><br>
             <button class="btn-main" onclick="startKantei()">鑑定を開始する</button>
         </div>
 
         <div id="result-area">
             <hr>
-            <h2>鑑定結果</h2>
+            <h2 style="text-align:center;">鑑定結果</h2>
             <div id="kantei-text"></div>
             <div class="stone-box">
-                <p class="stone-label">あなたの魂を救済する守護石：</p>
+                <p>あなたの魂を救済する守護石：</p>
                 <span id="stone-name" class="stone-name"></span>
                 <button class="btn-main" onclick="alert('購入ページへ移行します')">この石で魂を浄化する（購入ページへ）</button>
             </div>
@@ -160,14 +142,11 @@
         const inputForm = document.getElementById('input-form');
         const stoneNameSpan = document.getElementById('stone-name');
 
-        if (!detail) {
-            alert("悩みを入力してください。");
-            return;
-        }
+        if (!detail) { alert("入力を確認してください。"); return; }
 
         inputForm.style.display = "none";
         resultArea.style.display = "block";
-        kanteiTextDiv.innerText = "星々の配列を読み解いています...";
+        kanteiTextDiv.innerText = "星の導きを待っています...";
 
         try {
             const response = await fetch('/api/kantei', {
@@ -177,7 +156,8 @@
             });
 
             const data = await response.json();
-            kanteiTextDiv.innerText = data.result || "鑑定文を紡ぐことができませんでした。";
+            // 返ってきた結果をそのまま表示
+            kanteiTextDiv.innerText = data.result;
 
             let stone = "";
             if (type === '金運上昇') stone = "極位タイガーアイ（金運）";
@@ -186,10 +166,9 @@
             stoneNameSpan.innerText = stone;
 
         } catch (error) {
-            kanteiTextDiv.innerText = "通信エラーが発生しました： " + error.message;
+            kanteiTextDiv.innerText = "霊的交信に失敗しました。詳細：" + error.message;
         }
     }
 </script>
-
 </body>
 </html>
