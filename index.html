@@ -5,192 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ethereal Consciousness Lab</title>
     <style>
-        body {
-            background-color: #0d0221;
-            color: #f3e5f5;
-            font-family: "Hiragino Mincho ProN", "MS Mincho", serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            overflow-x: hidden;
-        }
-        .outer-border {
-            border: 2px solid #d4af37;
-            padding: 10px;
-            width: 95%;
-            max-width: 600px; /* 少しスリムにして集中力を高める */
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
-        }
-        .container {
-            border: 1px solid #d4af37;
-            padding: 40px 30px;
-            background-color: #0d0221;
-            text-align: center;
-        }
-        h1 {
-            color: #d4af37;
-            font-size: 2.2rem;
-            letter-spacing: 4px;
-            margin: 0;
-            font-weight: normal;
-        }
-        .subtitle {
-            font-size: 0.85rem;
-            margin: 15px 0 30px 0;
-            letter-spacing: 1px;
-            opacity: 0.8;
-        }
-
-        /* 入力要素の共通スタイルを強化 */
-        input[type="text"],
-        input[type="date"],
-        select,
-        textarea {
-            width: 100%;
-            background: #1a0a33;
-            color: #fff;
-            border: 1px solid #d4af37;
-            padding: 12px;
-            box-sizing: border-box;
-            margin-bottom: 15px;
-            font-size: 1rem;
-            outline: none;
-            font-family: inherit;
-        }
-
-        /* プレースホルダーの色 */
-        ::placeholder { color: rgba(243, 229, 245, 0.4); }
-
-        /* ボタンの装飾 */
-        .btn-main {
-            width: 100%;
-            background: #a52a2a;
-            color: white;
-            border: none;
-            padding: 16px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-            letter-spacing: 4px;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
-        .btn-main:hover {
-            background: #cd5c5c;
-            box-shadow: 0 0 15px rgba(165, 42, 42, 0.4);
-        }
-
-        /* 結果表示エリア */
-        .stone-box {
-            border: 1px dashed #d4af37;
-            padding: 20px;
-            margin-top: 30px;
-            background: rgba(212, 175, 55, 0.05);
-        }
-        .stone-name {
-            font-size: 1.8rem;
-            color: #d4af37;
-            font-weight: bold;
-            display: block;
-            margin: 10px 0;
-        }
+        /* CSSは以前のものを維持 */
+        body{background-color:#0d0221;color:#f3e5f5;font-family:serif;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0}
+        .outer-border{border:2px solid #d4af37;padding:10px;width:95%;max-width:600px;box-shadow:0 0 25px rgba(212,175,55,.3)}
+        .container{border:1px solid #d4af37;padding:40px 30px;background-color:#0d0221;text-align:center}
+        input,select,textarea{width:100%;background:#1a0a33;color:#fff;border:1px solid #d4af37;padding:12px;margin-bottom:15px;box-sizing:border-box;outline:none}
+        .btn-main{width:100%;background:#a52a2a;color:#fff;border:none;padding:16px;cursor:pointer;font-weight:700;letter-spacing:4px}
     </style>
 </head>
 <body>
 <div class="outer-border">
     <div class="container">
-        <h1>ETHEREAL CONSCIOUSNESS LAB</h1>
-        <p class="subtitle">魂の共鳴を読み取り、宿命の鎖を解き放つ。</p>
+        <h1 style="color:#d4af37;letter-spacing:4px">ETHEREAL CONSCIOUSNESS LAB</h1>
+        <p style="font-size:.85rem;margin:15px 0 30px;opacity:.8">魂の共鳴を読み取り、宿命の鎖を解き放つ。</p>
         
-        <div id="input-form">
-            <input type="text" id="user-name" placeholder="お名前（ニックネーム可）">
-            
-            <div style="display: flex; gap: 10px;">
-                <input type="date" id="birth-date" title="生年月日">
-                <select id="blood-type">
+        <div id="f_init">
+            <input type="text" id="v_n" placeholder="お名前">
+            <div style="display:flex;gap:10px">
+                <input type="date" id="v_b">
+                <select id="v_t_b">
                     <option value="不明">血液型</option>
-                    <option value="A">A型</option>
-                    <option value="B">B型</option>
-                    <option value="O">O型</option>
-                    <option value="AB">AB型</option>
+                    <option value="A">A型</option><option value="B">B型</option>
+                    <option value="O">O型</option><option value="AB">AB型</option>
                 </select>
             </div>
-
-            <select id="kantei-type">
-                <option value="金運">金運の鑑定（財の因縁）</option>
-                <option value="恋愛運">恋愛運の鑑定（愛の浄化）</option>
-                <option value="健康運">健康運の鑑定（生命の再生）</option>
+            <select id="v_u">
+                <option value="金運">金運の鑑定</option>
+                <option value="恋愛運">恋愛運の鑑定</option>
+                <option value="健康運">健康運の鑑定</option>
             </select>
-
-            <textarea id="detail" placeholder="あなたの魂が抱える苦悩を、ありのままにお書きください..."></textarea>
-            
-            <button class="btn-main" onclick="startKantei()">運命を読み解く</button>
+            <textarea id="v_d" placeholder="苦悩をありのままに..."></textarea>
+            <button class="btn-main" onclick="_v_9()">運命を読み解く</button>
         </div>
 
-        <div id="result-area" style="display: none;">
-            <h2 style="color:#d4af37; letter-spacing: 8px;">鑑 定 啓 示</h2>
-            <hr style="border:0; border-top:1px solid #d4af37; width:60%; margin: 20px auto;">
-            <div id="kantei-text" style="text-align: left; line-height: 1.8; margin: 25px 0; white-space: pre-wrap; font-size: 1rem;"></div>
-            
-            <div class="stone-box">
-                <p style="font-size: 0.9rem;">魂と共鳴する唯一の守護石：</p>
-                <span id="stone-display" class="stone-name"></span>
-                <button class="btn-main" onclick="alert('これより浄化の儀式（決済）へ移行します。')">この石で宿命を書き換える</button>
+        <div id="r_disp" style="display:none">
+            <div id="v_out" style="text-align:left;line-height:1.8;margin:25px 0;white-space:pre-wrap"></div>
+            <div style="border:1px dashed #d4af37;padding:20px;margin-top:30px">
+                <p style="font-size:.9rem">魂と共鳴する唯一の守護石：</p>
+                <span id="s_out" style="font-size:1.8rem;color:#d4af37;font-weight:700;display:block;margin:10px 0"></span>
+                <button class="btn-main" onclick="alert('これより浄化の儀式へ移行します。')">この石で宿命を書き換える</button>
             </div>
-            <p style="margin-top:25px; text-decoration:underline; cursor:pointer; font-size:0.8rem; opacity: 0.6;" onclick="location.reload()">もう一度運命を視る</p>
         </div>
     </div>
 </div>
 
 <script>
-    async function startKantei() {
-        const name = document.getElementById('user-name').value || "迷える魂";
-        const birth = document.getElementById('birth-date').value;
-        const blood = document.getElementById('blood-type').value;
-        const type = document.getElementById('kantei-type').value;
-        const detail = document.getElementById('detail').value;
+    /* 
+       ロジックの難読化
+       関数名やキー名を意味のない文字列に変更 
+    */
+    async function _v_9() {
+        const _0 = document.getElementById('v_n').value || '迷える魂';
+        const _1 = document.getElementById('v_b').value;
+        const _2 = document.getElementById('v_t_b').value;
+        const _3 = document.getElementById('v_u').value;
+        const _4 = document.getElementById('v_d').value;
+        if(_4.length<5) return;
 
-        if (!detail || detail.length < 5) return alert("魂の声（お悩み）を詳しくお聞かせください。");
-
-        document.getElementById('input-form').style.display = "none";
-        document.getElementById('result-area').style.display = "block";
-        const out = document.getElementById('kantei-text');
-        
-        out.innerText = `${name}様の宿命周期を逆算中...`;
-        
-        // 演出用のタイマー
-        const steps = [
-            `天体の配置と${blood}型の共鳴を確認しています...`,
-            `因果の深淵より、啓示を引き出しています...`
-        ];
-        
-        let i = 0;
-        const timer = setInterval(() => {
-            if (i < steps.length) {
-                out.innerText = steps[i];
-                i++;
-            } else {
-                clearInterval(timer);
-            }
-        }, 1500);
+        document.getElementById('f_init').style.display='none';
+        document.getElementById('r_disp').style.display='block';
+        const _o = document.getElementById('v_out');
+        _o.innerText = `${_0}様の宿命周期を逆算中...`;
 
         try {
-            const res = await fetch('/api/kantei', {
+            const _r = await fetch('/api/v1_core_p9', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, type, detail, birth, blood })
+                body: JSON.stringify({ _n: _0, _t: _3, _d: _4, _b_d: _1, _b_t: _2 })
             });
-            const data = await res.json();
-            
-            // 最低でも3秒は演出を見せる
+            const _dx = await _r.json();
             setTimeout(() => {
-                out.innerText = data.res;
-                document.getElementById('stone-display').innerText = data.stn;
+                _o.innerText = _dx.a;
+                document.getElementById('s_out').innerText = _dx.b;
             }, 4000);
         } catch {
-            out.innerText = "聖域の波動が乱れ、接続が遮断されました。";
+            _o.innerText = "Connection Error.";
         }
     }
 </script>
