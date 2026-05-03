@@ -13,23 +13,22 @@ export async function onRequest(context) {
     const detail = body.detail || "悩みなし";
 
     if (!env.GEMINI_API_KEY) {
-      return new Response(JSON.stringify({ result: "エラー：GEMINI_API_KEYが未設定です。" }), {
-        status: 500,
+      return new Response(JSON.stringify({ result: "エラー：管理画面でGEMINI_API_KEYを設定してください。" }), {
+        status: 200,
         headers: { "Content-Type": "application/json" }
       });
     }
 
-    // エラーメッセージに基づき、最も標準的なエンドポイント形式に固定
-    // models/ プレフィックスを含めた完全なモデル名を使用します
-    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + env.GEMINI_API_KEY;
+    // モデル名をパスに含めた完全なURL。一切の動的生成を排除。
+    const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + env.GEMINI_API_KEY;
 
-    const response = await fetch(API_URL, {
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents: [{
           parts: [{
-            text: `あなたは伝説の鑑定師です。以下の悩みを持つ者に、前世の因縁を指摘しつつ、最終的に「${type}」に呼応する石が必要だと説得する、神秘的な鑑定文を生成してください。：${detail}`
+            text: "あなたは伝説の鑑定師です。以下の悩みを持つ者に、前世の因縁を指摘しつつ、最終的に「" + type + "」に呼応する石が必要だと説得する、神秘的な鑑定文を150文字程度で生成してください。悩み：" + detail
           }]
         }]
       })
@@ -38,16 +37,15 @@ export async function onRequest(context) {
     const data = await response.json();
 
     if (!response.ok) {
-      // 万が一エラーが発生した際も、具体的なメッセージをフロントに渡して「鑑定に失敗しました」で終わらせない
-      const errorMsg = data.error?.message || JSON.stringify(data);
-      return new Response(JSON.stringify({ result: "交信失敗：" + errorMsg }), {
-        status: 200, // フロントエンドの catch を避けるため 200 で返却
+      // エラーが発生した場合、そのメッセージを鑑定結果の欄に表示させる
+      const errorDetail = data.error ? data.error.message : JSON.stringify(data);
+      return new Response(JSON.stringify({ result: "APIエラー発生：" + errorDetail }), {
+        status: 200,
         headers: { "Content-Type": "application/json" }
       });
     }
 
-    // 応答テキストの抽出
-    const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || "星の配置を読み取ることができませんでした。";
+    const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || "運命の糸が絡まり、読み取れませんでした。";
 
     return new Response(JSON.stringify({ result: resultText }), {
       status: 200,
