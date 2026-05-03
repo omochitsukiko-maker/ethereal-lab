@@ -1,6 +1,9 @@
 export async function onRequest(context) {
   const { env, request } = context;
-  if (request.method !== "POST") return new Response("Forbidden", { status: 403 });
+  
+  if (request.method !== "POST") {
+    return new Response("Forbidden", { status: 403 });
+  }
 
   try {
     const _b = await request.json();
@@ -15,7 +18,8 @@ export async function onRequest(context) {
     const _s_p = _db_s[_t] || ["導きの純粋水晶"];
     const _r_s = _s_p[Math.floor(Math.random() * _s_p.length)];
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:key=${env.GEMINI_API_KEY}`;
+    // 修正ポイント：エンドポイントURLの記述ミスを解消
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${env.GEMINI_API_KEY}`;
 
     const _res = await fetch(url, {
       method: "POST",
@@ -35,10 +39,19 @@ export async function onRequest(context) {
     });
 
     const _data = await _res.json();
-    return new Response(JSON.stringify({ a: _data.candidates?.[0]?.content?.parts?.[0]?.text, b: _r_s }), {
+    
+    // 成功レスポンス
+    return new Response(JSON.stringify({
+      a: _data.candidates?.[0]?.content?.parts?.[0]?.text || "啓示が得られませんでした。",
+      b: _r_s
+    }), {
       headers: { "Content-Type": "application/json" }
     });
+
   } catch (e) {
-    return new Response(JSON.stringify({ a: "因果律の乱れにより啓示は遮断されました。" }), { status: 200 });
+    // デバッグ用にエラーを返す
+    return new Response(JSON.stringify({ a: `波界の乱れ（Error）: ${e.message}` }), {
+      headers: { "Content-Type": "application/json" }
+    });
   }
 }
