@@ -1,7 +1,163 @@
 <!DOCTYPE html>
-<html>
-<body style="background: red; color: white; font-size: 50px;">
-    これが見えたら最新です。
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereal Consciousness Lab</title>
+    <style>
+        body {
+            background-color: #0d0221;
+            color: #f3e5f5;
+            font-family: "Hiragino Mincho ProN", "MS Mincho", serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .outer-border {
+            border: 2px solid #d4af37;
+            padding: 10px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+        .container {
+            border: 1px solid #d4af37;
+            padding: 40px;
+            background-color: #0d0221;
+            text-align: center;
+        }
+        h1 {
+            color: #d4af37;
+            font-size: 2.2rem;
+            letter-spacing: 4px;
+            margin-top: 0;
+            text-transform: uppercase;
+        }
+        p.subtitle {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+        hr {
+            border: 0;
+            border-top: 1px solid #d4af37;
+            margin: 25px auto;
+            width: 70%;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: #1a0a33;
+            color: #fff;
+            border: 1px solid #d4af37;
+            padding: 15px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            resize: none;
+            outline: none;
+        }
+        .btn-main {
+            background: #a52a2a;
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            transition: 0.3s;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .btn-main:hover {
+            background: #cd5c5c;
+            box-shadow: 0 0 15px rgba(165, 42, 42, 0.5);
+        }
+        #result-area {
+            display: none;
+            animation: fadeIn 1.5s;
+        }
+        #kantei-text {
+            text-align: left;
+            line-height: 2;
+            margin: 30px 0;
+            white-space: pre-wrap;
+            font-size: 1.05rem;
+        }
+        .stone-box {
+            margin-top: 40px;
+            padding: 20px;
+            border: 1px dashed #d4af37;
+        }
+        .stone-name {
+            font-size: 1.8rem;
+            color: #d4af37;
+            font-weight: bold;
+            display: block;
+            margin: 10px 0;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+<div class="outer-border">
+    <div class="container">
+        <h1>Ethereal Consciousness Lab</h1>
+        <p class="subtitle">あなたの魂の歪みを検知し、救済の道を示します。</p>
+        
+        <div id="input-form">
+            <textarea id="detail" placeholder="あなたの悩みや現在の状況を詳しくお書きください..."></textarea><br>
+            <button class="btn-main" onclick="startKantei()">鑑定を開始する</button>
+        </div>
+
+        <div id="result-area">
+            <h2 style="color:#d4af37; letter-spacing: 8px;">鑑定結果</h2>
+            <hr>
+            <div id="kantei-text"></div>
+            <div class="stone-box">
+                <p>あなたの魂を救済する守護石：</p>
+                <span class="stone-name">極位タイガーアイ（金運）</span>
+                <button class="btn-main" onclick="alert('購入ページへ移行します。')">この石で魂を浄化する</button>
+            </div>
+            <p style="margin-top:20px; font-size:0.8rem; cursor:pointer; text-decoration:underline;" onclick="location.reload()">やり直す</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function startKantei() {
+        const detail = document.getElementById('detail').value;
+        if (!detail || detail.length < 5) return alert("魂の声が不足しています。もう少し詳しくご記入ください。");
+
+        const inputForm = document.getElementById('input-form');
+        const resultArea = document.getElementById('result-area');
+        const kanteiText = document.getElementById('kantei-text');
+
+        inputForm.style.display = "none";
+        resultArea.style.display = "block";
+        kanteiText.innerText = "波長を合わせ、宇宙の記録（アカシックレコード）にアクセス中...";
+
+        try {
+            const res = await fetch('/api/kantei', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ detail })
+            });
+            
+            const data = await res.json();
+            kanteiText.innerText = data.result;
+        } catch (e) {
+            kanteiText.innerText = "【警告】次元間の干渉により鑑定が中断されました。再度お試しください。";
+            console.error(e);
+        }
+    }
+</script>
 </body>
 </html>
-
