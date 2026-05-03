@@ -63,6 +63,7 @@
             box-sizing: border-box;
             font-size: 1rem;
             margin-bottom: 20px;
+            resize: none;
         }
         select {
             background: #1a0a33;
@@ -151,7 +152,6 @@
             return;
         }
 
-        // 表示の初期化
         inputForm.style.display = "none";
         resultArea.style.display = "block";
         kanteiTextDiv.innerText = "深層意識へアクセス中...";
@@ -165,14 +165,12 @@
 
             const data = await response.json();
 
-            // APIがエラーを含めて result キーで返してくる設計に対応
             if (data && data.result) {
                 kanteiTextDiv.innerText = data.result;
             } else {
-                kanteiTextDiv.innerText = "宇宙の波長が乱れました。時間を置いて再度お試しください。";
+                kanteiTextDiv.innerText = "鑑定結果の取得に失敗しました。";
             }
 
-            // 石の表示
             let stone = "";
             if (type === 'money') stone = "極位タイガーアイ（金運）";
             else if (type === 'love') stone = "至高のローズクォーツ（愛）";
@@ -180,7 +178,7 @@
             stoneNameSpan.innerText = stone;
 
         } catch (error) {
-            kanteiTextDiv.innerText = "通信が遮断されました。霊的環境の良い場所で再度お試しください。";
+            kanteiTextDiv.innerText = "通信エラーが発生しました。";
         }
     }
 </script>
