@@ -13,6 +13,7 @@
         button { background: #8b0000; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; cursor: pointer; border-radius: 5px; margin-top: 20px; }
         #result-area { display: none; margin-top: 30px; border-top: 1px solid #d4af37; padding-top: 20px; text-align: left; line-height: 1.8; }
         .stone-name { font-size: 1.5rem; color: #d4af37; font-weight: bold; text-align: center; display: block; margin-top: 10px; }
+        #kantei-text { white-space: pre-wrap; }
     </style>
 </head>
 <body>
@@ -55,6 +56,7 @@
             return;
         }
 
+        // 表示の切り替え
         kanteiTextDiv.innerText = "宇宙の意思を確認中...";
         resultArea.style.display = "block";
         document.getElementById('input-form').style.display = "none";
@@ -68,16 +70,16 @@
 
             const data = await response.json();
 
-            // バックエンドが返す { result: "..." } を正確に読み取る
-            if (data.result) {
+            // data.result が存在するか確認し、存在すれば表示
+            if (data && data.result) {
                 kanteiTextDiv.innerText = data.result;
-            } else if (data.error) {
-                kanteiTextDiv.innerText = "エラー: " + data.error;
             } else {
-                kanteiTextDiv.innerText = "宇宙の波長が乱れました。時間を置いて再度お試しください。";
+                // キーが不一致または中身が空の場合の予備表示
+                kanteiTextDiv.innerText = "鑑定結果の取得に失敗しました。レスポンス形式が不正です。";
+                console.error("Unexpected response format:", data);
             }
 
-            // 石の判定（簡易ロジック）
+            // 石の判定ロジック
             let stone = "";
             if (type === 'money') stone = "極位タイガーアイ（金運）";
             else if (type === 'love') stone = "至高のローズクォーツ（愛）";
@@ -85,7 +87,8 @@
             stoneNameSpan.innerText = stone;
 
         } catch (error) {
-            kanteiTextDiv.innerText = "交信エラー: " + error.message;
+            kanteiTextDiv.innerText = "通信中に断絶が発生しました。再度お試しください。";
+            console.error("Fetch error:", error);
         }
     }
 </script>
